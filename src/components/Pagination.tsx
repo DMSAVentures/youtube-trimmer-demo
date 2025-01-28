@@ -52,7 +52,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
         <div className={'w-full space-x-2 justify-center flex items-center'}>
             {/* First Page Button */}
 
-            <button className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50" disabled={pageWindow === 1} onClick={handleToFirst} title="First Page">
+            <button className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50 disabled:bg-gray-50" disabled={pageWindow === 1} onClick={handleToFirst} title="First Page">
                 &lt;
             </button>
 
@@ -97,7 +97,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
 
             {/* Last Page Button */}
 
-            <button className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50" disabled={pageWindow === maxPageWindow} onClick={handleToLast} title="Last Page">
+            <button className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50 disabled:bg-gray-50" disabled={pageWindow === maxPageWindow} onClick={handleToLast} title="Last Page">
                 &gt;
             </button>
         </div>
