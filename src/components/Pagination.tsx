@@ -6,21 +6,6 @@ export interface IPaginationProps {
     onPageChange: (page: number) => void;
     currentPage: number;
 }
-// export function Pagination(props: IPaginationProps) {
-//     const {
-//         totalItems,
-//         itemsPerPage,
-//         onPageChange,
-//     } = props;
-//
-//     return (
-//         <div className="flex items-center justify-center space-x-4">
-//             <button className="p-2 bg-white text-gray-800 hover:bg-gray-300 rounded-full">Previous</button>
-//             <button className="p-2 bg-white text-gray-800 hover:bg-gray-300 rounded-full">Next</button>
-//         </div>
-//     );
-// }
-
 
 export const Pagination: React.FC<IPaginationProps> = (props) => {
     const {
@@ -95,7 +80,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
             ))}
             {/* Ellipsis for Next Page Range */}
             {pageWindow < maxPageWindow && (
-                <button className="pagination__button" onClick={handleNextPageRange} title="Next Page Range">
+                <button className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50" onClick={handleNextPageRange} title="Next Page Range">
                     <span className={`pagination__pagenumber`}>...</span>
                 </button>
             )}
