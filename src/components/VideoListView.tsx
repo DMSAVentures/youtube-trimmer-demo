@@ -39,7 +39,7 @@ export function VideoListView(props: IVideoListViewProps) {
 
     return (
         <div className={'space-y-4'}>
-            <input className={'p-4 rounded-lg cursor-pointer text-gray-800 bg-white hover:bg-gray-50'} placeholder={"Search videos"} onChange={handleSearch}/>
+            <input className={'p-4 w-full rounded-lg cursor-pointer text-gray-800 bg-white hover:bg-gray-50'} placeholder={"Search videos"} onChange={handleSearch}/>
             {currentResults.map((item) => (
                 <div
                     key={item.id.videoId}
