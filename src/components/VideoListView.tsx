@@ -14,18 +14,18 @@ interface VideoListItemProps {
 }
 
 const VideoListItem: React.FC<VideoListItemProps> = ({ video, isActive, onClick }) => {
-    const videoId = video.id.videoId ? video.etag + video.id.videoId : video.etag + video.id.channelId;
+    const videoId = video.id.videoId;
     return (
         <div
             onClick={() => onClick(videoId)}
-            className={`p-4 rounded-lg cursor-pointer transition-colors ${
+            className={`flex flex-col space-y-2 p-4 rounded-lg cursor-pointer transition-colors ${
                 isActive ? 'bg-blue-100 border-2 border-blue-500' : 'bg-white hover:bg-gray-50'
             }`}
         >
             <h3 className="font-semibold text-lg text-gray-800">
                 {video.snippet.title}
             </h3>
-            <p className="text-gray-600 mt-1">{video.snippet.description}</p>
+            <p className="text-gray-600">{video.snippet.description}</p>
         </div>
     );
 };
@@ -83,8 +83,9 @@ export function VideoListView(props: IVideoListViewProps) {
                 placeholder={"Search videos"}
                 onChange={handleSearch}
             />
+            <div className={"h-screen overflow-y-auto space-y-4 "}>
             {currentResults.map((video) => {
-                const key = video.id.videoId ? video.etag + video.id.videoId : video.etag + video.id.channelId;
+                const key = video.id.videoId;
                 return (
                 <VideoListItem
                     key={key}
@@ -93,6 +94,7 @@ export function VideoListView(props: IVideoListViewProps) {
                     onClick={handleItemClicked}
                 />
             )})}
+            </div>
             {searchResults.length > 0 && (
                 <Pagination
                     itemsPerPage={itemsPerPage}

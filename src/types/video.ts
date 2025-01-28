@@ -4,7 +4,6 @@ export type Video = {
     kind: string;
     etag: string;
     id: {
-        channelId?: string;
         kind: string;
         videoId: string;
     };

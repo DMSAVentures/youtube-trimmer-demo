@@ -10,8 +10,9 @@ export function useGetVideos() {
     React.useEffect(() => {
         setLoading(true);
         try {
-            // @ts-ignore
-            setVideos(data.items);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            setVideos(data.items.filter((item: Video) => item.id.kind === "youtube#video"));
         } catch {
             setError("Failed to fetch videos");
             setLoading(false);
