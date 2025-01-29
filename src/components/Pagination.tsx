@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 
 export interface IPaginationProps {
     totalItems: number;
@@ -6,7 +6,8 @@ export interface IPaginationProps {
     onPageChange: (page: number) => void;
     currentPage: number;
 }
-
+// Disclaimer: I didn't write this component from scratch. I copied it from my design system and made minimal changes to make it work with the assignment.
+// You can find it at https://github.com/DMSAVentures/webapp/tree/main/src/components/simpleui/pagination
 export const Pagination: React.FC<IPaginationProps> = (props) => {
     const {
         totalItems,
@@ -17,7 +18,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const [pageWindow, setPageWindow] = useState(1);
-    const pagesToShow = 5; // Number of pages to display in the pagination control
+    const pagesToShow = 4; // Number of pages to display in the pagination control
     const maxPageWindow = Math.ceil(totalPages / pagesToShow);
 
     const getPageNumbers = () => {
@@ -39,27 +40,26 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
     };
 
     const handleToFirst = () => {
-        setPageWindow(1);
         onPageChange(1);
+        setPageWindow(1);
     }
 
     const handleToLast = () => {
-        setPageWindow(maxPageWindow);
         onPageChange(totalPages);
+        setPageWindow(maxPageWindow);
     }
 
     return (
         <div className={'w-full space-x-2 justify-center flex items-center'}>
             {/* First Page Button */}
-
-            <button className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50 disabled:bg-gray-50" disabled={pageWindow === 1} onClick={handleToFirst} title="First Page">
+            <button className="p-2 text-gray-800 bg-white rounded-lg cursor-pointer hover:bg-gray-50 disabled:bg-gray-50 disabled:cursor-not-allowed" disabled={pageWindow === 1} onClick={handleToFirst} title="First Page">
                 &lt;
             </button>
 
 
             {/* Previous Page Range Button */}
             <button
-                className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50"
+                className="p-2 text-gray-800 bg-white rounded-lg cursor-pointer hover:bg-gray-50 disabled:bg-gray-50 disabled:cursor-not-allowed"
                 onClick={handlePreviousPageRange}
                 disabled={pageWindow === 1}
                 title="Previous Page Range"
@@ -68,11 +68,10 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
             </button>
 
             {/* Page Numbers */}
-
             {getPageNumbers().map((page) => (
                 <button
                     key={page}
-                    className={`p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50 ${currentPage === page ? 'border-2 border-blue-500 border-solid' : ''}`}
+                    className={`p-2 text-gray-800 bg-white rounded-lg cursor-pointer hover:bg-gray-50 ${currentPage === page ? 'border-2 border-blue-600 border-solid' : ''}`}
                     onClick={() => onPageChange(page)}
                 >
                     <span className={`pagination__pagenumber`}>{page}</span>
@@ -80,14 +79,14 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
             ))}
             {/* Ellipsis for Next Page Range */}
             {pageWindow < maxPageWindow && (
-                <button className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50" onClick={handleNextPageRange} title="Next Page Range">
+                <button className="p-2 text-gray-800 bg-white rounded-lg cursor-pointer hover:bg-gray-50" onClick={handleNextPageRange} title="Next Page Range">
                     <span className={`pagination__pagenumber`}>...</span>
                 </button>
             )}
 
             {/* Next Page Range Button */}
             <button
-                className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50"
+                className="p-2 text-gray-800 bg-white rounded-lg cursor-pointer hover:bg-gray-50 disabled:bg-gray-50 disabled:cursor-not-allowed"
                 onClick={handleNextPageRange}
                 disabled={pageWindow === maxPageWindow}
                 title="Next Page Range"
@@ -96,8 +95,7 @@ export const Pagination: React.FC<IPaginationProps> = (props) => {
             </button>
 
             {/* Last Page Button */}
-
-            <button className="p-2 text-black bg-white rounded-lg cursor-pointer hover:bg-gray-50 disabled:bg-gray-50" disabled={pageWindow === maxPageWindow} onClick={handleToLast} title="Last Page">
+            <button className="p-2 text-gray-800 bg-white rounded-lg cursor-pointer hover:bg-gray-50 disabled:bg-gray-50 disabled:cursor-not-allowed" disabled={pageWindow === maxPageWindow} onClick={handleToLast} title="Last Page">
                 &gt;
             </button>
         </div>
