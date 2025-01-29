@@ -17,3 +17,50 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+@layer utilities {
+  /* Base container */
+  .trimmer {
+    @apply relative w-full;
+  }
+
+  /* Background track */
+  .trimmer__track {
+    @apply absolute w-full h-5 -top-2 bg-blue-200;
+  }
+
+  /* Highlight progress/selected segment */
+  .trimmer__progress {
+    @apply absolute h-5 bg-blue-600 -top-2 pointer-events-none;
+  }
+
+  /* Our custom utility class for the range inputs */
+  .trimmer__range {
+    @apply absolute w-full h-1 bg-transparent rounded-none appearance-none cursor-pointer pointer-events-none;
+  }
+
+  /* WebKit (Chrome, Safari) pseudo-elements */
+  .trimmer__range::-webkit-slider-thumb {
+    @apply pointer-events-auto appearance-none w-5 h-5 bg-white border-2 border-black rounded-none cursor-pointer relative z-20;
+  }
+  .trimmer__range::-webkit-slider-runnable-track {
+    @apply pointer-events-none;
+  }
+
+  /* Firefox pseudo-elements */
+  .trimmer__range::-moz-range-thumb {
+    @apply pointer-events-auto appearance-none w-2 h-8 bg-white border-2 border-black rounded-none cursor-pointer relative z-20;
+  }
+  .trimmer__range::-moz-range-track {
+    @apply pointer-events-none;
+  }
+
+  /* Internet Explorer/Edge pseudo-elements */
+  .trimmer__range::-ms-thumb {
+    @apply pointer-events-auto appearance-none w-5 h-5 bg-white border-2 border-black rounded-none cursor-pointer relative z-20;
+  }
+  .trimmer__range::-ms-track {
+    @apply pointer-events-none;
+  }
+}
