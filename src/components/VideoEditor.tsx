@@ -42,7 +42,7 @@ export const VideoEditor: React.FC<VideoPlayerProps> = ({videoId}) => {
         }
 
         setSeekToTime(values[0]);
-    }, [player, videoId, seekToTime, setSeekToTime]);
+    }, [player, videoId, seekToTime, setSeekToTime, storeTrimValues]);
 
     if (!videoId) {
         return <div

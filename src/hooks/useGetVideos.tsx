@@ -1,4 +1,4 @@
-import * as data from "./data.json"
+import data from "./data.json";
 import React from "react";
 import {Video} from "@/types/video";
 
