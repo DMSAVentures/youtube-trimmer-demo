@@ -1,5 +1,5 @@
-
-
+// This is the type definition for the Video object that we will be using in our application.
+// It is derived from the YouTube Data API v3 response object.
 export type Video = {
     kind: string;
     etag: string;

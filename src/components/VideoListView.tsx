@@ -19,7 +19,7 @@ const VideoListItem: React.FC<VideoListItemProps> = ({ video, isActive, onClick 
         <div
             onClick={() => onClick(videoId)}
             className={`flex flex-col space-y-2 p-4 rounded-lg cursor-pointer transition-colors ${
-                isActive ? 'bg-blue-100 border-2 border-blue-500' : 'bg-white hover:bg-gray-50'
+                isActive ? 'bg-blue-200 border-2 border-blue-600' : 'bg-white hover:bg-gray-50'
             }`}
         >
             <h3 className="font-semibold text-lg text-gray-800">
@@ -66,6 +66,7 @@ export function VideoListView(props: IVideoListViewProps) {
 
     const handlePageSelection = (page: number) => {
         setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     if (loading) {
@@ -83,7 +84,7 @@ export function VideoListView(props: IVideoListViewProps) {
                 placeholder={"Search videos"}
                 onChange={handleSearch}
             />
-            <div className={"h-screen overflow-y-auto space-y-4 "}>
+            <div className={"space-y-4"}>
             {currentResults.map((video) => {
                 const key = video.id.videoId;
                 return (
