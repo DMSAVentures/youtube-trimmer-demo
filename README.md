@@ -20,5 +20,5 @@ The app is not using any third party library for trimming the video.
 * Open `http://localhost:3000` in browser
 
 ## Demo
-This is hosted at https://youtube-video-trimmer.vercel.app/
+This is hosted at https://youtube-trimmer-demo-wp9n.vercel.app/
 
