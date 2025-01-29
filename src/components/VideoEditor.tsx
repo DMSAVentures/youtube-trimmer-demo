@@ -1,96 +1,71 @@
 import React, {useState, useEffect, useCallback} from "react";
-import { YTVideoContainer } from "@/components/YoutubeVideoIFrame";
 import VideoControls from "@/components/VideoPlayerControl";
+import useYouTubePlayer from "@/hooks/useYoutubePlayer";
+import useStoredTrimValues from "@/hooks/useStoredTrimValues";
 
 export interface VideoPlayerProps {
     videoId: string;
 }
 
-export const VideoEditor: React.FC<VideoPlayerProps> = ({ videoId }) => {
-    const [player, setPlayer] = useState<any>(null);
-    const [videoDuration, setVideoDuration] = useState<number>(0);
-    const [storedTrimStart,setStoredTrimStart] = useState<number>(0);
-    const [storedTrimEnd, setStoredTrimEnd] = useState<number>(0);
-    const [trimEnd, setTrimEnd] = useState<number>(storedTrimEnd);
-    const [trimStart, setTrimStart] = useState<number>(storedTrimStart);
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [currentSeekerTime, setCurrentSeekerTime] = useState<number>(0);
+export const VideoEditor: React.FC<VideoPlayerProps> = ({videoId}) => {
+    const elementId = "youtube-player";
+    const {player, isPlayerReady, videoDuration, isPlaying, getCurrentTime} = useYouTubePlayer(elementId, videoId);
+    const {storedTrimStart, storedTrimEnd, storeTrimValues} = useStoredTrimValues(videoId, videoDuration);
+    const [seekToTime, setSeekToTime] = useState<number>(0);
 
     useEffect(() => {
-        setStoredTrimStart(Number(localStorage.getItem(`${videoId}-trimStart`)) || 0);
-        setStoredTrimEnd(Number(localStorage.getItem(`${videoId}-trimEnd`)) || videoDuration);
-    }, [videoDuration, videoId, storedTrimEnd]);
+        setSeekToTime(storedTrimStart);
+    }, [storedTrimStart]);
 
     // Pause handler
     const pause = () => {
-        if (player) {
+        if (isPlayerReady && player) {
             player.pauseVideo();
-            setIsPlaying(false);
         }
     };
 
     // Play handler
     const play = () => {
-        if (player) {
-            player.seekTo(Number(localStorage.getItem(`${videoId}-trimStart`)) || 0, true);
+        if (isPlayerReady && player) {
+            player.seekTo(seekToTime, true);
             player.playVideo();
-            setIsPlaying(true);
         }
     };
 
     // Handle trim change
     const onTrim = useCallback((values: [number, number]) => {
-        localStorage.setItem(`${videoId}-trimStart`, String(values[0]));
-        localStorage.setItem(`${videoId}-trimEnd`, String(values[1]));
+        storeTrimValues(values[0], values[1]);
 
-        if (player && values[0] !== trimStart) {
+        if (player && values[0] !== seekToTime) {
             player.seekTo(values[0], true);
             player.playVideo();
         }
-        setTrimEnd(values[1]);
-        setTrimStart(values[0]);
-    }, [player, videoId, trimStart, setTrimStart, setTrimEnd]);
 
-    // Monitor current playback time and stop at trimEnd
-    useEffect(() => {
-        if (!player) return;
-
-        const interval = setInterval(() => {
-            const currentTime = player.getCurrentTime();
-            setCurrentSeekerTime(currentTime);
-            if (currentTime >= trimEnd) {
-                pause();
-            }
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [player, trimEnd]);
+        setSeekToTime(values[0]);
+    }, [player, videoId, seekToTime, setSeekToTime]);
 
     if (!videoId) {
-        return <div className={"flex justify-around items-center content-center text-gray-800 bg-gray-200 rounded-lg w-full lg:h-1/2 min-h-64"}>Select a video to edit</div>;
+        return <div
+            className={"flex justify-around items-center content-center text-gray-800 bg-gray-200 rounded-lg relative aspect-video lg:top-2 lg:sticky"}>
+            Select a video to edit
+        </div>;
     }
 
-    return (
-        <>
-            <YTVideoContainer
-                videoId={videoId}
-                storedTrimStart={storedTrimStart}
-                setPlayer={setPlayer}
-                setIsPlaying={setIsPlaying}
-                setVideoDuration={setVideoDuration}
-            />
+    return (<div className={"flex flex-col space-y-4 lg:top-2 lg:sticky"}>
+            <div className="relative aspect-video">
+                <div id={elementId} className="absolute inset-0 w-full h-full"></div>
+            </div>
             <VideoControls
+                isPlayerReady={isPlayerReady}
                 isPlaying={isPlaying}
                 play={play}
                 pause={pause}
-                currentSeekerTime={currentSeekerTime}
-                trimStart={storedTrimStart}
-                trimEnd={storedTrimEnd}
+                handleGetPlayerCurrentSeekerTime={getCurrentTime}
+                initTrimValues={[storedTrimStart, storedTrimEnd]}
                 videoDuration={videoDuration}
                 onTrim={onTrim}
             />
-        </>
-    );
+        </div>);
 };
 
 export default VideoEditor;
