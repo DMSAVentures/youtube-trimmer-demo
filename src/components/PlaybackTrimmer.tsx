@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import {convertSecondsToTime} from "@/utils/time";
 
 interface PlaybackTrimmerProps {
@@ -19,6 +19,12 @@ export const PlaybackTrimmer: React.FC<PlaybackTrimmerProps> = ({
                                                          }) => {
     const [minVal, setMinVal] = useState(trimStart);
     const [maxVal, setMaxVal] = useState(trimEnd);
+
+    // Update minVal and maxVal whenever trimStart or trimEnd changes from parent
+    useEffect(() => {
+        setMinVal(trimStart);
+        setMaxVal(trimEnd);
+    }, [trimStart, trimEnd]);
 
     const clamp = (val: number, min: number, max: number) => Math.max(min, Math.min(val, max));
 
