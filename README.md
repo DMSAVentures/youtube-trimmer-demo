@@ -13,6 +13,7 @@ If given more time, I would:
 - Improve accessibility for a better user experience.
 - Create utility classes for reusable styles.
 - Add loading spinners for loading player and list of videos.
+- Better error states upon failure to load video player or list of videos.
 
 ## How to Run
 1. Clone the repository.
